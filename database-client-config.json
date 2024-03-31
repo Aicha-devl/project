@@ -1,0 +1,31 @@
+{
+  "database": {
+    "1710936224468": {
+      "key": "1710936224468",
+      "host": "127.0.0.1",
+      "port": 3306,
+      "user": "root",
+      "dbType": "MySQL",
+      "name": "Aicha",
+      "advance": {
+        "hideSystemSchema": true,
+        "includeDatabases": "client"
+      },
+      "timezone": "+00:00",
+      "usingSSH": false,
+      "useSocksProxy": false,
+      "useHTTPProxy": false,
+      "global": true,
+      "savePassword":"Forever",
+      "readonly": false,
+      "sort": 11,
+      "useSSL": false,
+      "fs": {
+        "showHidden": true
+      },
+      "connectionKey": "database.connections"
+    }
+  },
+  "nosql": null,
+  "$schema": "http://127.0.0.1:8828/schema.json"
+}
