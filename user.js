@@ -1,4 +1,3 @@
-
 const express = require("express");
 const app = express();
 
@@ -7,7 +6,7 @@ app.use(express.json());
 const users = [];
 
 // HTTP METHODS
-// GET - Retrieve user 
+// GET - Retrieve user
 app.get("/", (request, response) => {
   response.send("Welcome to home!");
 });
@@ -28,8 +27,8 @@ app.post("/users", (request, response) => {
     response.status(400).send("User already exists");
     return;
   }
-  users.push(user);
-  response.status(201).send("Created!");
+  users.push(user); // Add the new user to the array
+  response.status(201).send("User created successfully!");
 });
 
 // DELETE - Remove user
@@ -50,7 +49,7 @@ app.get("/all-users", (request, response) => {
 });
 
 app.listen(3000, () => {
-  console.log("Started on port 3000");
+  console.log("Server started on port 3000");
 });
 
 
