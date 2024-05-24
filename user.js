@@ -1,3 +1,4 @@
+
 const express = require("express");
 const app = express();
 
@@ -6,13 +7,13 @@ app.use(express.json());
 const users = [];
 
 // HTTP METHODS
-// GET - Retrive Data
+// GET - Retrieve Data
 app.get("/", (request, response) => {
   response.send("Welcome to home!");
 });
 
 app.get("/users", (request, response) => {
-  if (users.length == 0) {
+  if (users.length === 0) {
     response.status(404).send("No users found!");
     return;
   }
@@ -33,16 +34,23 @@ app.post("/users", (request, response) => {
 
 // DELETE - Remove data
 app.delete('/users/:id', (request, response) => {
-    const { id } = request.params
-    const findUserIndex = users.findIndex((x) => x.id === id)
-    if(findUserIndex == -1) {
-        response.status(400).send("User not found!")
-        return
+    const { id } = request.params;
+    const findUserIndex = users.findIndex((x) => x.id === id);
+    if (findUserIndex === -1) {
+        response.status(400).send("User not found!");
+        return;
     }
-    users.splice(findUserIndex, 1)
-    response.status(200).send("User deleted successfully!")
-})
+    users.splice(findUserIndex, 1);
+    response.status(200).send("User deleted successfully!");
+});
+
+// List all users
+app.get("/all-users", (request, response) => {
+  response.status(200).send(users);
+});
 
 app.listen(3000, () => {
   console.log("Started on port 3000");
 });
+
+
