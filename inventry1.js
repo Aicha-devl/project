@@ -188,3 +188,37 @@ exports.deleteVariantPermanently = function (handlerInfo, variantId, callback) {
         callback(null, result);
     });
 };
+
+// Fonction pour obtenir la quantité de chaque élément dans l'inventaire
+exports.getItemQuantities = function (handlerInfo, callback) {
+    var sql = 'SELECT uuid as item_id, quantity FROM items';
+    dbHandler.getInstance().executeQuery(sql, [], function (err, items) {
+        if (err) {
+            return callback(err);
+        }
+        callback(null, items);
+    });
+};
+
+// Fonction pour supprimer un élément de l'inventaire
+exports.deleteInventoryItem = function (handlerInfo, itemId, callback) {
+    var sql = 'DELETE FROM inventory WHERE item_id = ?';
+    dbHandler.getInstance().executeQuery(sql, [itemId], function (err, result) {
+        if (err) {
+            return callback(err);
+        }
+        callback(null, result);
+    });
+};
+
+// Fonction pour calculer la quantité totale de chaque élément dans l'inventaire
+exports.calculateItemQuantities = function (handlerInfo, callback) {
+    var sql = 'SELECT item_id, SUM(quantity) as total_quantity FROM inventory GROUP BY item_id';
+    dbHandler.getInstance().executeQuery(sql, [], function (err, quantities) {
+        if (err) {
+            return callback(err);
+        }
+        callback(null, quantities);
+    });
+};
+
