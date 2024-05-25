@@ -1,4 +1,5 @@
-const express = require("express");
+
+ const express = require("express");
 const app = express();
 
 app.use(express.json());
@@ -76,6 +77,25 @@ app.get("/inventory/quantities", (request, response) => {
   }, {});
 
   response.status(200).send(quantities);
+});
+
+// GET - Search for an item
+app.get("/inventory/search", (request, response) => {
+  const { name } = request.query;
+
+  if (!name) {
+    response.status(400).send("Name query parameter is required");
+    return;
+  }
+
+  const results = inventory.filter(item => item.name.toLowerCase().includes(name.toLowerCase()));
+
+  if (results.length === 0) {
+    response.status(404).send("No matching inventory items found");
+    return;
+  }
+
+  response.status(200).send(results);
 });
 
 app.listen(3000, () => {
