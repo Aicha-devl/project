@@ -1,5 +1,3 @@
-
-
 const express = require("express");
 const app = express();
 
@@ -23,11 +21,11 @@ app.get("/inventory", (request, response) => {
 
 // POST - Create data
 app.post("/inventory", (request, response) => {
-  const { name, type, category, barcode } = request.body;
+  const { name, type, category, barcode, quantity } = request.body;
 
   // Validate required fields
-  if (!name || !type || !category) {
-    response.status(400).send("Name, type, and category are required");
+  if (!name || !type || !category || quantity == null) {
+    response.status(400).send("Name, type, category, and quantity are required");
     return;
   }
 
@@ -44,6 +42,7 @@ app.post("/inventory", (request, response) => {
     type,
     category,
     barcode,
+    quantity: parseInt(quantity, 10) // Ensure quantity is an integer
   };
   inventory.push(newItem);
   response.status(201).send("Inventory item added successfully");
@@ -59,6 +58,24 @@ app.delete('/inventory/:name', (request, response) => {
     }
     inventory.splice(index, 1);
     response.status(200).send("Inventory item deleted successfully");
+});
+
+// GET - Calculate total quantities
+app.get("/inventory/quantities", (request, response) => {
+  if (inventory.length === 0) {
+    response.status(404).send("No inventory items found!");
+    return;
+  }
+
+  const quantities = inventory.reduce((acc, item) => {
+    if (!acc[item.type]) {
+      acc[item.type] = 0;
+    }
+    acc[item.type] += item.quantity;
+    return acc;
+  }, {});
+
+  response.status(200).send(quantities);
 });
 
 app.listen(3000, () => {
